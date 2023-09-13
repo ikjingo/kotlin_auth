@@ -1,0 +1,21 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/user
+    username: root
+    password: eoqkr12
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+    generate-ddl: false
+  redis:
+    host: localhost
+    port: 6379
+
+jwt:
+  secret: c7a11b90afd6249593fb665eb473de9789ecf64cab490e72b069fd986bce77f6f4b8d6550db19713c4a1abfc60b82e1d9b46a06fd6894b6f560a12ce98f10a3d # TODO 환경변수로 설정 분리 필요

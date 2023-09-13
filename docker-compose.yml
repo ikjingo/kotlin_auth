@@ -1,0 +1,40 @@
+version: "3"
+services:
+  database:
+    image: mysql
+    container_name: auth_db
+    environment:
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./db/data:/var/lib/mysql
+    networks:
+      - auth_network
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - auth_network
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - database
+      - redis
+    ports:
+      - "8082:8082"
+    container_name: auth_app
+    environment:
+      SPRING_DATASOURCE_URL: ${DATABASE_URL}
+      SPRING_DATASOURCE_USERNAME: ${DATABASE_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DATABASE_PASSWORD}
+      SPRING_PROFILES_ACTIVE: docker-dev
+    networks:
+      - auth_network
+
+networks:
+  auth_network:
